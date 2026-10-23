@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SOMBRA.EXE | Triángulos rectángulos</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+  <!-- 1. PANTALLA DE INICIO -->
+  <section id="inicio" class="inicio">
+    <h1 class="titulo" data-t="SOMBRA.EXE">SOMBRA.EXE</h1>
+    <p class="lema">¿Podés calcular la altura de un poste sin medirlo?</p>
+    <button id="btn-iniciar" class="boton" type="button">Iniciar</button>
+  </section>
+
+  <main id="contenido" hidden>
+
+    <!-- 2. ESCENA: la dibuja React (js/escena.js) cuando se aprieta "Iniciar" -->
+    <section class="escena-seccion">
+      <div id="escena-raiz"></div>
+      <p class="pista">Bajá para ver el expediente.</p>
+    </section>
+
+    <!-- 3. TARJETA DE DATOS (la arma js/app.js con lo que hay en js/datos.js) -->
+    <section class="seccion revelar">
+      <article id="tarjeta-datos" class="hoja"></article>
+    </section>
+
+    <!-- 4. CALCULADORA: un solo campo -->
+    <section class="seccion revelar">
+      <article class="hoja">
+        <h2>Calculadora</h2>
+        <form id="formulario" novalidate>
+          <label class="campo">Altura del poste
+            <div>
+              <input id="altura-poste" type="text" inputmode="decimal" autocomplete="off" placeholder="—">
+              <span class="unidad">m</span>
+            </div>
+          </label>
+          <div class="acciones">
+            <button type="submit" class="boton">Comprobar</button>
+          </div>
+        </form>
+        <div id="resultado" class="cartel" role="status" aria-live="polite"></div>
+      </article>
+    </section>
+
+  </main>
+
+  <!-- El orden importa: primero React, después datos, calculadora, escena y app -->
+  <script src="libs/react.production.min.js"></script>
+  <script src="libs/react-dom.production.min.js"></script>
+  <script src="js/datos.js"></script>
+  <script src="js/calculadora.js"></script>
+  <script src="js/escena.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

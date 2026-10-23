@@ -1,0 +1,228 @@
+/* ============================================================
+   SOMBRA.EXE - estilos
+   Idea visual: hojas de carpeta cuadriculada sobre un fondo azul tinta.
+   Todo proyecta una sombra dura, como en la actividad.
+   ============================================================ */
+
+:root {
+  --tinta: #1f3a8a;
+  --tinta-oscura: #0b1a52;
+  --papel: #f7fbff;
+  --linea: #e1ebf9;
+  --margen: #e5486b;
+  --sol: #ffbf00;
+  --texto: #14213d;
+  --suave: #4a5a7d;
+  --ok: #1e8e5a;
+  --error: #c62d4a;
+  --aviso: #a86b00;
+  --mono: ui-monospace, "Cascadia Code", "SF Mono", Consolas, monospace;
+  --sans: system-ui, "Segoe UI", Roboto, sans-serif;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  background: var(--tinta);
+  color: var(--texto);
+  font: 1rem/1.6 var(--sans);
+}
+
+/* ---------- Pantalla de inicio ---------- */
+.inicio {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 22px;
+  padding: 24px;
+  text-align: center;
+  color: #fff;
+  background: var(--tinta);
+  overflow: hidden;
+  transition: opacity .6s;
+}
+.inicio.oculto { opacity: 0; pointer-events: none; }
+
+/* El sol de la portada */
+.inicio::before {
+  content: "";
+  position: absolute;
+  top: -18vmax;
+  left: -14vmax;
+  width: 46vmax;
+  height: 46vmax;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--sol) 0 38%, rgba(255, 191, 0, .25) 39% 60%, transparent 61%);
+}
+
+/* El título proyecta su propia sombra */
+.titulo {
+  position: relative;
+  margin: 0;
+  font: 800 clamp(2.4rem, 10vw, 5.5rem)/1 var(--mono);
+  letter-spacing: -.02em;
+}
+.titulo::after {
+  content: attr(data-t);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  color: var(--tinta-oscura);
+  opacity: .75;
+  transform-origin: 0 100%;
+  transform: scaleY(-.45) skewX(55deg);
+}
+.lema { position: relative; margin: 0; max-width: 30ch; font-size: 1.2rem; }
+
+/* ---------- Botones ---------- */
+.boton {
+  position: relative;
+  padding: 12px 34px;
+  font: 700 1.05rem var(--sans);
+  color: var(--texto);
+  background: var(--sol);
+  border: 2px solid var(--texto);
+  border-radius: 6px;
+  box-shadow: 5px 5px 0 var(--tinta-oscura);
+  cursor: pointer;
+}
+.boton:active { transform: translate(3px, 3px); box-shadow: 2px 2px 0 var(--tinta-oscura); }
+.boton.secundario { background: var(--papel); }
+.boton:focus-visible, input:focus-visible { outline: 3px solid var(--texto); outline-offset: 3px; }
+.inicio .boton:focus-visible { outline-color: #fff; }
+
+/* ---------- Escena ---------- */
+.escena-seccion {
+  min-height: 100vh;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 22px;
+  padding: 24px 16px;
+}
+#escena {
+  display: block;
+  width: min(100%, 1000px);
+  height: auto;
+  border: 3px solid var(--papel);
+  box-shadow: 10px 10px 0 var(--tinta-oscura);
+}
+#escena text { font: 700 17px var(--sans); fill: var(--texto); }
+.pista { margin: 0; color: #dbe6ff; }
+
+/* ---------- Hojas de carpeta (tarjeta y calculadora) ---------- */
+.seccion {
+  width: min(100%, 860px);
+  margin: 0 auto;
+  padding: 16px 16px 56px;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .7s, transform .7s;
+}
+.seccion.visible { opacity: 1; transform: none; }
+
+.hoja {
+  position: relative;
+  padding: 28px 28px 28px 72px;
+  background-color: var(--papel);
+  background-image:
+    linear-gradient(var(--linea) 1px, transparent 1px),
+    linear-gradient(90deg, var(--linea) 1px, transparent 1px);
+  background-size: 26px 26px;
+  box-shadow: 10px 10px 0 var(--tinta-oscura);
+}
+.hoja::before { /* línea roja del margen */
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 52px;
+  width: 2px;
+  background: var(--margen);
+}
+.hoja::after { /* agujeros de carpeta */
+  content: "";
+  position: absolute;
+  top: 34px;
+  left: 14px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--tinta);
+  box-shadow: 0 120px 0 var(--tinta), 0 240px 0 var(--tinta);
+}
+.hoja h2 { margin: 0 0 8px; font-size: 1.6rem; }
+.hoja h3 { margin: 22px 0 8px; font-size: 1.05rem; }
+.hoja p { margin: 8px 0; }
+.nota { color: var(--suave); font-size: .95rem; }
+
+/* Calculadora */
+.campo { display: grid; gap: 4px; font-size: .92rem; font-weight: 600; }
+.campo div { display: flex; align-items: center; gap: 8px; }
+input {
+  width: 100%;
+  padding: 9px 10px;
+  font: 1rem var(--mono);
+  color: var(--texto);
+  background: #fff;
+  border: 2px solid var(--texto);
+  border-radius: 0;
+}
+.unidad { min-width: 2rem; font: 400 .95rem var(--mono); color: var(--suave); }
+.acciones { display: flex; flex-wrap: wrap; gap: 14px; }
+
+/* ---------- Pantallas chicas ---------- */
+@media (max-width: 520px) {
+  .hoja { padding: 22px 16px 22px 52px; }
+  .hoja::before { left: 38px; }
+  .hoja::after { left: 10px; }
+}
+
+/* ---------- Si la persona prefiere menos movimiento ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .seccion, .inicio { transition: none; }
+}
+
+/* ---------- Escena animada (React) ---------- */
+#escena-raiz { width: min(100%, 1000px); }
+.escena-caja { display: grid; gap: 18px; justify-items: start; }
+#escena { width: 100%; }
+.corona { transform-box: fill-box; transform-origin: center; animation: girar 40s linear infinite; }
+@keyframes girar { to { transform: rotate(360deg); } }
+
+/* ---------- Tarjeta de datos ---------- */
+.cabecera { display: flex; align-items: center; gap: 10px; }
+.cabecera svg { flex: none; }
+.hoja .cabecera h2 { margin: 0; font-size: 1.3rem; }
+.hoja hr { margin: 16px 0; border: 0; border-top: 1px solid var(--texto); opacity: .25; }
+.puntos { margin: 8px 0; padding-left: 22px; }
+.puntos li { margin: 10px 0; }
+
+/* ---------- Calculadora y cartel de resultado ---------- */
+.campo { max-width: 320px; }
+.acciones { margin-top: 16px; }
+.cartel {
+  margin-top: 22px;
+  padding: 14px 18px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  background: #fff;
+  border: 3px solid var(--texto);
+  box-shadow: 6px 6px 0 var(--tinta-oscura);
+  animation: aparecer .35s ease-out;
+}
+.cartel:empty { display: none; }
+.cartel.ok { color: #0f5c37; background: #d9f7e6; border-color: var(--ok); }
+.cartel.error { color: #8f1d34; background: #ffe3e8; border-color: var(--error); }
+.cartel .sub { display: block; margin-top: 4px; font-size: .95rem; font-weight: 400; }
+@keyframes aparecer { from { transform: scale(.85); opacity: 0; } to { transform: none; opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .corona, .cartel { animation: none; }
+}
